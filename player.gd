@@ -8,6 +8,8 @@ extends RigidBody2D
 var vp
 var tile_map
 var cam
+var score_label
+var score_label_container
 var dead_texture
 var dead = false
 
@@ -17,6 +19,8 @@ func _ready():
 	vp = get_viewport()
 	tile_map = get_node("../TileMap")
 	cam = get_node("Camera2D")
+	score_label = get_node("Container/Text")
+	score_label_container = get_node("Container")
 	dead_texture = ImageTexture.new()
 	dead_texture.load("res://tiles/gopher_dead.png")
 	set_process(true)
@@ -50,11 +54,13 @@ func is_passable(pos, delta):
 func _process(delta):
 	var cur_pos = get_pos()
 	var cur_rot = get_rot()
-
+	
 	if((Input.is_action_pressed("ui_up") or Input.is_mouse_button_pressed(BUTTON_LEFT)) and is_passable(cur_pos, delta) and !dead == true):
 		move_local_y(128 * delta)
 	if((Input.is_action_pressed("ui_accept") or Input.is_mouse_button_pressed(BUTTON_RIGHT)) == true):
 		dig(cur_pos)
 	
+	
 	look_at(cam.get_global_mouse_pos())
+	score_label_container.set_rot(-cur_rot)
 
