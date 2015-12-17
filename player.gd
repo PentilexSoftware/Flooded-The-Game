@@ -12,6 +12,7 @@ var score_label
 var score_label_container
 var dead_texture
 var dead = false
+var score = 0
 
 
 func _ready():
@@ -28,8 +29,15 @@ func _ready():
 	 
 func dig(pos):
 	pos = tile_map.world_to_map(pos)
-	if((tile_map.get_cell(pos.x, pos.y) == 0) or (tile_map.get_cell(pos.x, pos.y) > 1)):
+	if(tile_map.get_cell(pos.x, pos.y) == 0):
 		tile_map.set_cell(pos.x, pos.y, -1)
+		score += 250
+	elif(tile_map.get_cell(pos.x, pos.y) == 2):
+		tile_map.set_cell(pos.x, pos.y, -1)
+		score += 500
+	elif(tile_map.get_cell(pos.x, pos.y) == 3):
+		tile_map.set_cell(pos.x, pos.y, -1)
+		score += 1000
 
 
 func dead():
@@ -60,6 +68,7 @@ func _process(delta):
 	if((Input.is_action_pressed("ui_accept") or Input.is_mouse_button_pressed(BUTTON_RIGHT)) == true):
 		dig(cur_pos)
 	
+	score_label.set_text("Score: " + str(score))
 	
 	look_at(cam.get_global_mouse_pos())
 	score_label_container.set_rot(-cur_rot)

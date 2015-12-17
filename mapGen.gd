@@ -18,7 +18,7 @@ func get_water_cells():
 	var used_cells = get_used_cells()
 	
 	for i in used_cells:
-		if((get_cell(i.x, i.y) == 0) or (get_cell(i.x, i.y) > 1)):
+		if(get_cell(i.x, i.y) != 1):
 			used_cells.remove(used_cells.find(i))
 	
 	return used_cells
