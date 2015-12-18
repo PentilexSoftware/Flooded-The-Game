@@ -68,7 +68,11 @@ func _process(delta):
 	if((Input.is_action_pressed("ui_accept") or Input.is_mouse_button_pressed(BUTTON_RIGHT)) == true):
 		dig(cur_pos)
 	
+<<<<<<< HEAD
 	score_label.set_text("Score: $" + str(score))
+=======
+	score_label.set_text("Score: " + str(score))
+>>>>>>> 24268ab9fe303bd97b5ef71a29a1113bd397fbf7
 	
 	look_at(cam.get_global_mouse_pos())
 	score_label_container.set_rot(-cur_rot)
