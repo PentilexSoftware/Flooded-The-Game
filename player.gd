@@ -10,6 +10,7 @@ var tile_map
 var cam
 var score_label
 var score_label_container
+var timer
 var dead_texture
 var dead = false
 var score = 0
@@ -22,6 +23,7 @@ func _ready():
 	cam = get_node("Camera2D")
 	score_label = get_node("Container/Text")
 	score_label_container = get_node("Container")
+	timer = get_node("Timer")
 	dead_texture = ImageTexture.new()
 	dead_texture.load("res://tiles/gopher_dead.png")
 	set_process(true)
@@ -41,16 +43,21 @@ func dig(pos):
 
 
 func dead():
-	get_node("./Sprite").set_texture(dead_texture)
+	if(timer.get_time_left() == 0):
+		get_node("./Sprite").set_texture(dead_texture)
+	elif(timer.PAUSE_MODE_STOP == true):
+		timer.start()
 	dead = true
 
 func is_passable(pos, delta):
 	var output
 	
 	pos = tile_map.world_to_map(pos)
-	if((tile_map.get_cell(pos.x, pos.y) == 0) or (tile_map.get_cell(pos.x, pos.y) > 1)):
+	if(tile_map.get_cell(pos.x, pos.y) == 0):
 		dig(tile_map.map_to_world(pos))
 		output = true
+	elif(tile_map.get_cell(pos.x, pos.y) >= 2):
+		output = false
 	elif(tile_map.get_cell(pos.x, pos.y) == 1):
 		dead()
 		output = true
